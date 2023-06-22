@@ -1,10 +1,20 @@
-import ReactDom from 'react-dom';
-
+// 1) Import ReactDOM library
+import ReactDOM from "react-dom/client";
+ 
+// 2) Get a reference to the div with ID root
+const el = document.getElementById("root");
+ 
+// 3) Tell React to take control of that element
+const root = ReactDOM.createRoot(el!);
+ 
+// 4) Create a component
 const App = () => {
-  return <h1>hi</h1>
+  return (
+    <div>
+      <h1>hi</h1>
+    </div>
+  );
 };
-
-ReactDom.render(
-  <App />,
-  document.querySelector('#root')
-)
+ 
+// 5) Show the component on the screen
+root.render(<App />);
