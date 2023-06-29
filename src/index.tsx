@@ -1,13 +1,12 @@
 // NEED TO PASS THE --legacy-peer-deps FLAG TO EVERY NPM INSTALL COMMAND THAT IS MADE GOING FORWARD IN THIS COURSE
 // npm install --save-exact @monaco-editor/react@3.7.5 --legacy-peer-deps
 
-
 import * as esbuild from "esbuild-wasm";
 import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { unpkgPathPlugin } from "./plugins/unpkg_path_plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
-import CodeEditor from './components/code-editor';
+import CodeEditor from "./components/code-editor";
 
 const el = document.getElementById("root");
 
@@ -73,12 +72,19 @@ const App = () => {
 
   return (
     <div>
-      <CodeEditor />
+      <CodeEditor
+        initialValue="const a = 1;"
+        onChange={(value) => setInput(value)}
+      />
       <textarea
         value={input}
-        onChange={(e) => {setInput(e.target.value)}}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
       ></textarea>
-      <div><button onClick={onClick}>Submit</button></div>
+      <div>
+        <button onClick={onClick}>Submit</button>
+      </div>
       <iframe
         title="preview"
         ref={iframe}
