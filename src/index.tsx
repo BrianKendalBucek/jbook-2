@@ -1,3 +1,7 @@
+// NEED TO PASS THE --legacy-peer-deps FLAG TO EVERY NPM INSTALL COMMAND THAT IS MADE GOING FORWARD IN THIS COURSE
+// npm install --save-exact @monaco-editor/react@3.7.5 --legacy-peer-deps
+
+
 import * as esbuild from "esbuild-wasm";
 import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
@@ -16,7 +20,7 @@ const App = () => {
   const startService = async () => {
     ref.current = await esbuild.startService({
       worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
+      wasmURL: "https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm",
     });
   };
 
@@ -43,7 +47,7 @@ const App = () => {
     });
 
     // setCode(result.outputFiles[0].text);
-    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
   };
 
   const html = `
@@ -70,12 +74,17 @@ const App = () => {
     <div>
       <textarea
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => {
+          setInput(e.target.value)
+        }}
       ></textarea>
-      <div>
-        <button onClick={onClick}>Submit</button>
-      </div>
-      <iframe title="preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+      <div><button onClick={onClick}>Submit</button></div>
+      <iframe
+        title="preview"
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
     </div>
   );
 };
