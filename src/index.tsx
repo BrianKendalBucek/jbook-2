@@ -2,7 +2,7 @@
 // npm install --save-exact @monaco-editor/react@3.7.5 --legacy-peer-deps
 
 import "bulmaswatch/superhero/bulmaswatch.min.css";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import ReactDOM from "react-dom/client";
 import CodeEditor from "./components/code-editor";
 import Preview from "./components/preview";
