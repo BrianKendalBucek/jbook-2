@@ -20,29 +20,35 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
       return;
     }
     const timer = setTimeout(async () => {
-      createBundle(cell.id, cell.content)
+      createBundle(cell.id, cell.content);
     }, 750);
 
     return () => {
       clearTimeout(timer);
     };
-// eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cell.content, cell.id, createBundle]);
 
   return (
     <Resizable direction="vertical">
-      <div style={{ height: 'calc(100% - 10px)', display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          height: "calc(100% - 10px)",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <Resizable direction="horizontal">
           <CodeEditor
             initialValue={cell.content}
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
-        {
-          !bundle || bundle.loading
-          ? <div>Loading...</div>
-          : <Preview code={bundle.code} err={bundle.err} />
-        }
+        {!bundle || bundle.loading ? (
+          <div>Loading...</div>
+        ) : (
+          <Preview code={bundle.code} err={bundle.err} />
+        )}
       </div>
     </Resizable>
   );
