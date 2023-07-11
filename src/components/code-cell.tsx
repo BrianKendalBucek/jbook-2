@@ -16,20 +16,28 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
   const cumulativeCode = useTypedSelector((state) => {
     const { data, order } = state.cells;
-    const orderedCells = order.map(id => data[id]);
+    const orderedCells = order.map((id) => data[id]);
 
     const cumulativeCode = [
       `
         const show = (value) => {
+          const root = document.querySelector('#root');
+
           if (typeof value === 'object') {
-            document.querySelector('#root').innerHTML = JSON.stringify(value);
+            if (value.$$typeof && value.props) {
+              ReactDOM.render(value, root); 
+            } else {
+              root.innerHTML = JSON.stringify(value);
+            }
+
+          } else {
+            root.innerHTML = value;
           }
-          document.querySelector('#root').innerHTML = value;
         };
-      `
+      `,
     ];
     for (let c of orderedCells) {
-      if (c.type === 'code') {
+      if (c.type === "code") {
         cumulativeCode.push(c.content);
       }
       if (c.id === cell.id) {
@@ -41,18 +49,18 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
   useEffect(() => {
     if (!bundle) {
-      createBundle(cell.id, cumulativeCode.join('\n'));
+      createBundle(cell.id, cumulativeCode.join("\n"));
       return;
     }
     const timer = setTimeout(async () => {
-      createBundle(cell.id, cumulativeCode.join('\n'));
+      createBundle(cell.id, cumulativeCode.join("\n"));
     }, 750);
 
     return () => {
       clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cumulativeCode.join('\n'), cell.id, createBundle]);
+  }, [cumulativeCode.join("\n"), cell.id, createBundle]);
 
   return (
     <Resizable direction="vertical">
